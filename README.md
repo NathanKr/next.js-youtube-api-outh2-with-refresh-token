@@ -4,5 +4,21 @@ I have implementation for accessing from the server youtube api using outh2 - ch
 <h2>AI prompt</h2>
 i have next.js with youtube api and Oauth2. how to implemnent using page router. i do not want to access youtube api from the client i want the server api to do it
 
-<h2>credentials</h2>
+<h2>Usage</h2>
+from the index page choose "Get videos" than login using nathan@nathankrasney.com and see num videos
+
+<h2>Design</h2>
+<ul>
+<li>similar to <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a> but here we use next.js and start from the client
+</li>
+<li>here we pass video count back to page : videos which is different from youtube-api-server-private </li>
+</ul>
+
+
+<h2>Credentials</h2>
 Same as in <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a> (check there credentials.json locally)
+
+
+<h2>Limitation</h2>
+<p>To use the youtube api one must authenticate using /api/authlogin which pass code that /api/oauth2callback can use to retrive tokens and access the youtube api. one can store this e.g. in a session so user will not have to login each time.</p>
+<p>possible solutions may be next-auth/react and iron-session</p>

@@ -1,5 +1,3 @@
-// pages/api/auth/login.js
-
 import { oauth2Client } from "@/logic/google";
 import { NextApiRequest, NextApiResponse } from "next";
 
