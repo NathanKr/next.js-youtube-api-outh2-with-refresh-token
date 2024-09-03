@@ -1,7 +1,7 @@
 import { OAuth2Client } from "google-auth-library";
 import { google, youtube_v3 } from "googleapis";
 
-async function getUserVideos(
+export async function getUserVideos(
   oauth2Client: OAuth2Client
 ): Promise<youtube_v3.Schema$SearchResult[] | undefined> {
   const youtubeV3 = google.youtube({
@@ -37,4 +37,3 @@ async function getUserVideos(
   }
 }
 
-export default getUserVideos;
