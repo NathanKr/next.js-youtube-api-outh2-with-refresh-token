@@ -1,5 +1,6 @@
 import { oauth2Client } from "@/logic/google";
 import { getUserVideos } from "@/logic/utils";
+import { google } from "googleapis";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -19,6 +20,16 @@ export default async function handler(
     // Exchange authorization code for access tokens
     const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
+
+    const oauth2 = google.oauth2({
+      auth: oauth2Client,
+      version: 'v2',
+    });
+    
+    const { data } = await oauth2.userinfo.get();
+    const email = data.email;
+    console.log(`email : ${email}`);
+    
 
     const items = await getUserVideos(oauth2Client) ?? []
 

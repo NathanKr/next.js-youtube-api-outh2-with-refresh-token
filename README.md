@@ -20,5 +20,5 @@ Same as in <a href='https://github.com/NathanKr/youtube-api-server-private'>yout
 
 
 <h2>Limitation</h2>
-<p>To use the youtube api one must authenticate using /api/authlogin which pass code that /api/oauth2callback can use to retrive tokens and access the youtube api. one can store this e.g. in a session so user will not have to login each time.</p>
+<p>To use the youtube api one must authenticate using /api/authlogin which pass code that /api/oauth2callback can use to retrive tokens and access the youtube api via OAuth2Client object. one can store this e.g. in a session so user will not have to login each time.</p>
 <p>possible solutions may be next-auth/react and iron-session</p>
