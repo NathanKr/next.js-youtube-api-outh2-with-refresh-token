@@ -14,11 +14,12 @@ from the index page choose "Get videos" than login using nathan@nathankrasney.co
 <li>here we pass video count back to page : videos which is different from youtube-api-server-private </li>
 </ul>
 
-
 <h2>Credentials</h2>
 Same as in <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a> (check there credentials.json locally)
 
-
-<h2>Limitation</h2>
-<p>To use the youtube api one must authenticate using /api/authlogin which pass code that /api/oauth2callback can use to retrive tokens and access the youtube api via OAuth2Client object. one can store this e.g. in a session so user will not have to login each time.</p>
-<p>possible solutions may be next-auth/react and iron-session</p>
+<h2>Persist token limitation</h2>
+<ul>
+<li>To use the youtube api one must authenticate using /api/authlogin which pass code that /api/oauth2callback can use to retrive tokens and access the youtube api via OAuth2Client object. one can store this e.g. in a session so user will not have to login each time.</li>
+<li>possible solutions may be next-auth/react and iron-session</li>
+<li>add session to my design in tag 0.21 i was suggested by chatgpt to use next-session but it is not working , this package was last updated two years ago so its not a good sign</li>
+</ul>
