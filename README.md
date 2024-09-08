@@ -9,7 +9,7 @@ from the index page choose "Get videos" than login using nathan@nathankrasney.co
 
 <h2>Design</h2>
 <ul>
-<li>similar to <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a> but here we use next.js and start from the client
+<li>similar to <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a> but betetr : here we use next.js , start from the client , videos has stand alone api and oauth2callback api does not handle videos only auth stuff
 </li>
 <li>here we pass video count back to page : videos which is different from youtube-api-server-private </li>
 </ul>
