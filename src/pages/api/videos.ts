@@ -1,37 +1,22 @@
-// --- /api/videos
+// /api/videos.ts
 
-import { oauth2Client } from "@/logic/google";
-import { getIronSessionDefaultMaxAge } from "@/logic/iron-session-utils";
+import withAuth from "@/logic/middleware/withAuth";
 import { getUserVideos } from "@/logic/utils";
 import { LoginStatus, Pages } from "@/types/enums";
+import { OAuth2Client } from "google-auth-library";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const session = await getIronSessionDefaultMaxAge(req, res);
-    const { code } = session;
-
-    console.log(`code : ${code}`);
-
-    if (!code) {
-      console.error(`code is empty`);
-      res.redirect(`${Pages.Login}/?status=${LoginStatus.LoginRequired}`);
-      return;
-    }
-
-    // Exchange authorization code for access tokens
-    const { tokens } = await oauth2Client.getToken(code);
-    oauth2Client.setCredentials(tokens);
+    // The oauth2Client is available in req, passed from the middleware
+    const oauth2Client = req.oauth2Client as OAuth2Client;
 
     const items = (await getUserVideos(oauth2Client)) ?? [];
-    console.log(`items.length : ${items.length}`);
-
     res.redirect(`${Pages.Videos}?length=${items.length}`);
   } catch (error) {
-    console.log(error);
-    res.redirect(`${Pages.Login}/?status=${LoginStatus.LoginRequired}`);
+    console.error(error);
+    res.status(500).send({});
   }
 }
+
+export default withAuth(handler);
