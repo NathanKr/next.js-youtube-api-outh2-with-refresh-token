@@ -21,5 +21,11 @@ Same as in <a href='https://github.com/NathanKr/youtube-api-server-private'>yout
 <ul>
 <li>To use the youtube api one must authenticate using /api/authlogin which pass code that /api/oauth2callback can use to retrive tokens and access the youtube api via OAuth2Client object. one can store this e.g. in a session so user will not have to login each time.</li>
 <li>possible solutions may be next-auth/react and iron-session</li>
-<li>add session to my design in tag 0.21 i was suggested by chatgpt to use next-session but it is not working , this package was last updated two years ago so its not a good sign</li>
 </ul>
+
+<h2>Persist token partial solution</h2>
+<ul>
+<li>i have added iron-ssesion so after /api/loginauth i am able to save the code in a cookie in /api/oauth2callback and use it in /api/videos but only once. Next time i need to re-login</li>
+<li>Altough i need to login each time the api structure now is better because videos is stand alone api and /api/loginauth \ /api/oauth2callback are generic</li>
+</ul>
+
