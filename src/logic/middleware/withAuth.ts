@@ -21,7 +21,7 @@ const withAuth = (handler: Function) => {
       oauth2Client.setCredentials(tokens);
 
       // Attach oauth2Client to the request object for the handler
-      req.oauth2Client = oauth2Client;
+      req.oauth2Client = oauth2Client ;
 
       // Call the actual handler function now
       return handler(req, res);
