@@ -2,7 +2,7 @@
 
 import withAuth from "@/logic/middleware/withAuth";
 import { getUserVideos } from "@/logic/google-utils";
-import {  Pages } from "@/types/enums";
+import { Pages } from "@/types/enums";
 import { OAuth2Client } from "google-auth-library";
 import { NextApiRequest, NextApiResponse } from "next";
 

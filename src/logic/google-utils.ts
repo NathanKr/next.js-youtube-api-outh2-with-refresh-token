@@ -50,6 +50,7 @@ export async function isAccessTokenExpired(
     const response: TokenInfo = (await oauth2Client.getTokenInfo(
       accessToken
     )) as TokenInfo;
+    
     const currentTime = Date.now(); // Current time in milliseconds
     return response.expiry_date <= currentTime; // Check if the token has expired
   } catch (error) {

@@ -27,5 +27,8 @@ Same as in <a href='https://github.com/NathanKr/youtube-api-server-private'>yout
 <ul>
 <li>i have added iron-ssesion so after /api/loginauth i am able to save the code in a cookie in /api/oauth2callback and use it in /api/videos but only once. Next time i need to re-login</li>
 <li>Altough i need to login each time the api structure now is better because videos is stand alone api and /api/loginauth \ /api/oauth2callback are generic</li>
+<li>add withAuth to handle authentication</li>
+<li>save access token instead of code seems better because the token is valid for about 1 hour</li>
+<li>add refresh token for complete solution - need to check</li>
 </ul>
 
