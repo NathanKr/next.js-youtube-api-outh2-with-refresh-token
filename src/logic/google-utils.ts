@@ -47,14 +47,21 @@ export async function isAccessTokenExpired(
   accessToken: string
 ): Promise<boolean | never> {
   try {
-    const response: TokenInfo = (await oauth2Client.getTokenInfo(
+    console.log(`isAccessTokenExpired , accessToken : ${accessToken}`);
+    const tokenInfo: TokenInfo = (await oauth2Client.getTokenInfo(
       accessToken
     )) as TokenInfo;
-    
+
+    console.log(tokenInfo);
     const currentTime = Date.now(); // Current time in milliseconds
-    return response.expiry_date <= currentTime; // Check if the token has expired
+    return tokenInfo.expiry_date <= currentTime; // Check if the token has expired
   } catch (error) {
-    console.error("Error checking token expiry:", error);
-    throw error;
+    if (error instanceof Error && error.message.includes("invalid_token")) {
+      // --- exception is thrown in case the token has expired
+      return true;
+    } else {
+      console.error("Error checking token expiry : ", error);
+      throw error;
+    }
   }
 }

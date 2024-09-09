@@ -7,6 +7,8 @@ import axios from "axios";
 import { IRefreshTokenOutput } from "@/types/api";
 
 const withAuth = (handler: Function) => {
+  console.log(`enter withAuth`);
+  
   return async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const session = await getIronSessionDefaultMaxAge(req, res);
