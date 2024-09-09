@@ -9,6 +9,8 @@ export default async function handler(
   res: NextApiResponse<IRefreshTokenOutput | ErrorResponse>
 ) {
   try {
+    console.log('enter /api/refresh-token');
+    
     const session = await getIronSessionDefaultMaxAge(req, res);
     const refreshToken = session.refreshToken;
 

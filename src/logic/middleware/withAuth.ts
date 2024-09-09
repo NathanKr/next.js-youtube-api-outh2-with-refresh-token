@@ -5,10 +5,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { isAccessTokenExpired } from "../google-utils";
 import axios from "axios";
 import { IRefreshTokenOutput } from "@/types/api";
+import { concatUrls } from "../gen-utils";
+import { getServerUrl } from "../project-utils";
 
 const withAuth = (handler: Function) => {
   console.log(`enter withAuth`);
-  
+
   return async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const session = await getIronSessionDefaultMaxAge(req, res);
@@ -24,8 +26,9 @@ const withAuth = (handler: Function) => {
 
       const accessTokenExpired = await isAccessTokenExpired(accessToken);
       if (accessTokenExpired) {
+        const fullUrl = concatUrls(getServerUrl(), "/api/refresh-token");
         // Fetch new access token using Axios
-        const response = await axios.post(`/api/refresh-token`, {
+        const response = await axios.post(fullUrl, {
           refreshToken: session.refreshToken,
         });
 
@@ -48,7 +51,7 @@ const withAuth = (handler: Function) => {
       // Call the actual handler function now
       return handler(req, res);
     } catch (error) {
-      console.error("Error refreshing access token:", error);
+      console.error("Error withAuth:", error);
       res.redirect(`${Pages.Login}/?status=${LoginStatus.LoginRequired}`);
     }
   };
