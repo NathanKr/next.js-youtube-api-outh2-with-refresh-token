@@ -1,5 +1,11 @@
-import { OAuth2Client } from "google-auth-library";
+import { OAuth2Client, TokenInfo } from "google-auth-library";
 import { google, youtube_v3 } from "googleapis";
+
+export const oauth2Client = new google.auth.OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.NEXT_PUBLIC_YOUTUBE_REDIRECT_URI
+);
 
 export async function getUserVideos(
   oauth2Client: OAuth2Client
@@ -37,3 +43,17 @@ export async function getUserVideos(
   }
 }
 
+export async function isAccessTokenExpired(
+  accessToken: string
+): Promise<boolean | never> {
+  try {
+    const response: TokenInfo = (await oauth2Client.getTokenInfo(
+      accessToken
+    )) as TokenInfo;
+    const currentTime = Date.now(); // Current time in milliseconds
+    return response.expiry_date <= currentTime; // Check if the token has expired
+  } catch (error) {
+    console.error("Error checking token expiry:", error);
+    throw error;
+  }
+}

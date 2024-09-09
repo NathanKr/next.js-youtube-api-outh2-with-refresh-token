@@ -1,8 +1,8 @@
 // /api/videos.ts
 
 import withAuth from "@/logic/middleware/withAuth";
-import { getUserVideos } from "@/logic/utils";
-import { LoginStatus, Pages } from "@/types/enums";
+import { getUserVideos } from "@/logic/google-utils";
+import {  Pages } from "@/types/enums";
 import { OAuth2Client } from "google-auth-library";
 import { NextApiRequest, NextApiResponse } from "next";
 
