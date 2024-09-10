@@ -28,6 +28,7 @@ I have implementation for accessing from the server youtube api using outh2 - ch
     </ul>
 
 <h2>Credentials</h2>
+    These must be kept privately
     <p>Same as in <code>youtube-api-server-private</code>, but here add <code>IRON_SESSION_PASSWORD</code> and put inside a next.js file <code>.env.local</code> with:</p>
     <ul>
         <li><code>GOOGLE_CLIENT_ID</code></li>
