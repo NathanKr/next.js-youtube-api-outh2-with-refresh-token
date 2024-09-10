@@ -28,9 +28,12 @@ export default async function handler(
       return;
     }
     oauth2Client.setCredentials(tokens);
-    const session = await getIronSessionDefaultMaxAge(req, res);
     const userInfo = await getAuthenticatedUserInfo(oauth2Client);// --- i do not want to check validation here i will do it when access the info
     
+    let session = await getIronSessionDefaultMaxAge(req, res);
+    session.destroy(); // --- start from scratch
+    session = await getIronSessionDefaultMaxAge(req, res);
+
     session.accessToken = access_token;
     session.refreshToken = refresh_token;
     session.userInfo = userInfo;
