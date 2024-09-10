@@ -3,6 +3,7 @@
 import { oauth2Client } from "@/logic/google-utils";
 import { getIronSessionDefaultMaxAge } from "@/logic/iron-session-utils";
 import { LoginStatus, Pages } from "@/types/enums";
+import { StatusCodes } from "http-status-codes";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -14,13 +15,14 @@ export default async function handler(
   console.log(`code : ${code}`);
 
   if (!code) {
-    res.status(400).send("Missing authorization code");
+    res.status(StatusCodes.BAD_REQUEST).send("Missing authorization code");
     return;
   }
 
   try {
     const { tokens } = await oauth2Client.getToken(code);
-    if(!tokens.access_token || !tokens.refresh_token){
+    const {access_token , refresh_token} = tokens;
+    if(!access_token || !refresh_token){
       console.error('tokens info is not complete');
       res.redirect(`${Pages.Login}?status=${LoginStatus.LoginFailure}`);
       return;
@@ -28,14 +30,15 @@ export default async function handler(
     oauth2Client.setCredentials(tokens);
     const session = await getIronSessionDefaultMaxAge(req, res);
     
-    session.accessToken = tokens.access_token;
-    session.refreshToken = tokens.refresh_token;
+    session.accessToken = access_token;
+    session.refreshToken = refresh_token;
     await session.save(); // --- encrypt the session data and set cookie
 
     res.redirect(`${Pages.Login}?status=${LoginStatus.LoginSuccess}`);
     return;
   } catch (error) {
     console.error(error);
-    res.status(500).send({});
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({});
+    return;
   }
 }

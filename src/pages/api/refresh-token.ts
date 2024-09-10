@@ -3,47 +3,91 @@ import { oauth2Client } from "@/logic/google-utils";
 import { getIronSessionDefaultMaxAge } from "@/logic/iron-session-utils";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ErrorResponse, IRefreshTokenOutput } from "@/types/api";
+import { Credentials } from "google-auth-library";
+import { z } from "zod";
+import { AxiosError } from "axios";
+import { StatusCodes } from "http-status-codes"; // Import HTTP status codes
+import { googleTokenResponseSchema } from "@/logic/zod-schema";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IRefreshTokenOutput | ErrorResponse>
 ) {
   try {
-    console.log('enter /api/refresh-token');
-    
     const session = await getIronSessionDefaultMaxAge(req, res);
-    const refreshToken = session.refreshToken;
+    const { refreshToken } = session;
 
     if (!refreshToken) {
-      return res.status(401).json({ error: "Unauthorized" });
+      return res
+        .status(StatusCodes.UNAUTHORIZED) // Use named constant
+        .json({ error: "Unauthorized: No refresh token found" });
     }
 
-    const url = `https://oauth2.googleapis.com/token`; // Refresh token endpoint
+    const url = `https://oauth2.googleapis.com/token`; // Google token endpoint
 
     const response = await axios.post(url, {
       grant_type: "refresh_token",
       refresh_token: refreshToken,
-      client_id: oauth2Client._clientId!,
-      client_secret: oauth2Client._clientSecret!,
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_secret: process.env.GOOGLE_CLIENT_SECRET,
     });
 
-    const output = response.data as IRefreshTokenOutput; // Parse response
-    const { tokens } = output;
+    // Validate the response data using Zod schema
+    const parsedData = googleTokenResponseSchema.parse(response.data);
 
-    if (!tokens || !tokens.access_token) {
-      console.error("Invalid refresh token response:", response.data);
-      throw new Error("Invalid refresh token response");
-    }
+    const { access_token, expires_in, token_type, id_token, scope } =
+      parsedData;
 
-    oauth2Client.setCredentials(tokens); // Update the client instance
+    const newTokens: Credentials = {
+      access_token,
+      expiry_date: Date.now() + expires_in * 1000,
+      token_type,
+      id_token,
+      scope,
+      refresh_token: refreshToken, // Keep the refresh token if it's not provided
+    };
+
+    oauth2Client.setCredentials(newTokens);
 
     // Update the session with the new access token
-    session.accessToken = tokens.access_token ?? undefined;
+    session.accessToken = access_token;
     await session.save();
 
-    return res.status(200).json({ ...output });
+    const output: IRefreshTokenOutput = {
+      tokens: newTokens,
+    };
+
+    return res.status(StatusCodes.OK).json(output); // Use named constant for OK (200)
   } catch (error) {
-    console.error("Error refreshing access token:", error);
-    return res.status(500).json({ error: "Failed to refresh access token" });
+    return handleError(error, res);
+  }
+}
+
+function handleError(error: unknown, res: NextApiResponse) {
+  if (error instanceof z.ZodError) {
+    console.error("Validation error:", error.errors);
+    return res
+      .status(StatusCodes.BAD_REQUEST) // Use named constant for bad request (400)
+      .json({ error: "Invalid response format" });
+  } else if (error instanceof AxiosError) {
+    console.error(
+      "Axios error response data:",
+      error.response?.data || error.message
+    );
+    return res
+      .status(error.response?.status || StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({
+        error: error.response?.data || "Failed to refresh access token",
+      });
+  } else if (error instanceof Error) {
+    console.error("Error:", error.message);
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR) // Use named constant for internal server error (500)
+      .json({ error: error.message });
+  } else {
+    console.error("Unknown error:", error);
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR) // Use named constant for internal server error (500)
+      .json({ error: "An unknown error occurred" });
   }
 }

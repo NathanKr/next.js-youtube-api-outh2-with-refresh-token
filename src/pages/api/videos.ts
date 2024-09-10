@@ -5,6 +5,7 @@ import { getUserVideos } from "@/logic/google-utils";
 import { Pages } from "@/types/enums";
 import { OAuth2Client } from "google-auth-library";
 import { NextApiRequest, NextApiResponse } from "next";
+import { StatusCodes } from "http-status-codes";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -15,7 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     res.redirect(`${Pages.Videos}?length=${items.length}`);
   } catch (error) {
     console.error(error);
-    res.status(500).send({});
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({});
   }
 }
 
