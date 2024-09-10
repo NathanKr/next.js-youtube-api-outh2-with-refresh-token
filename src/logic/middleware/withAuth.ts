@@ -1,6 +1,6 @@
 import { oauth2Client } from "@/logic/google-utils";
 import { getIronSessionDefaultMaxAge } from "@/logic/iron-session-utils";
-import { LoginStatus, Pages } from "@/types/enums";
+import { ApiUrl, LoginStatus, Pages } from "@/types/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { isAccessTokenExpired } from "../google-utils";
 import axios from "axios";
@@ -26,7 +26,7 @@ const withAuth = (handler: Function) => {
 
       const accessTokenExpired = await isAccessTokenExpired(accessToken);
       if (accessTokenExpired) {
-        const fullUrl = concatUrls(getServerUrl(), "/api/refresh-token");
+        const fullUrl = concatUrls(getServerUrl(), ApiUrl.RefreshToken);
         // Fetch new access token using Axios
         const response = await axios.post(fullUrl, {
           refreshToken: session.refreshToken,

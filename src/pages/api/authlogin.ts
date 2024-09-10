@@ -1,16 +1,20 @@
-// --- /api/authlogin
 
 import { oauth2Client } from "@/logic/google-utils";
+import withAuth from "@/logic/middleware/withAuth";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const scopes = [
-    "https://www.googleapis.com/auth/youtube.readonly",
+function handler(req: NextApiRequest, res: NextApiResponse) {
+  const SCOPES = [
+    "https://www.googleapis.com/auth/youtube.readonly", // -- require to get video list
+    "https://www.googleapis.com/auth/userinfo.profile", // -- require to get user profile
+    "https://www.googleapis.com/auth/userinfo.email"    // -- require to get user email
   ];
 
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: "offline",
-    scope: scopes,
+    scope: SCOPES,
   });
   res.redirect(authUrl);
 }
+
+export default withAuth(handler);

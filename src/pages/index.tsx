@@ -1,14 +1,14 @@
 // pages/index.tsx
-import { API, Pages } from '@/types/enums';
-import Link from 'next/link';
-
+import UserInfo from "@/components/user-info";
+import { ApiUrl } from "@/types/enums";
+import Link from "next/link";
 
 export default function HomePage() {
-
   return (
     <div>
       <h1>Your YouTube Videos</h1>
-      <Link href={API.Videos}>Get videos</Link>
+      <Link href={ApiUrl.Videos}>Get videos</Link>
+      <UserInfo/>
     </div>
   );
 }

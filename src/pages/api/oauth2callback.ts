@@ -1,6 +1,6 @@
 // --- api/oauth2callback
 
-import { oauth2Client } from "@/logic/google-utils";
+import { getAuthenticatedUserInfo, oauth2Client } from "@/logic/google-utils";
 import { getIronSessionDefaultMaxAge } from "@/logic/iron-session-utils";
 import { LoginStatus, Pages } from "@/types/enums";
 import { StatusCodes } from "http-status-codes";
@@ -29,9 +29,11 @@ export default async function handler(
     }
     oauth2Client.setCredentials(tokens);
     const session = await getIronSessionDefaultMaxAge(req, res);
+    const userInfo = await getAuthenticatedUserInfo(oauth2Client);// --- i do not want to check validation here i will do it when access the info
     
     session.accessToken = access_token;
     session.refreshToken = refresh_token;
+    session.userInfo = userInfo;
     await session.save(); // --- encrypt the session data and set cookie
 
     res.redirect(`${Pages.Login}?status=${LoginStatus.LoginSuccess}`);

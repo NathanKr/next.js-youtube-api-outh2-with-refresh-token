@@ -1,11 +1,27 @@
 import { OAuth2Client, TokenInfo } from "google-auth-library";
-import { google, youtube_v3 } from "googleapis";
+import { google, oauth2_v2, youtube_v3 } from "googleapis";
 
 export const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
   process.env.NEXT_PUBLIC_YOUTUBE_REDIRECT_URI
 );
+
+export async function getAuthenticatedUserInfo(
+  oauth2Client: OAuth2Client
+): Promise<oauth2_v2.Schema$Userinfo> {
+  const oauth2 = google.oauth2({
+    auth: oauth2Client,
+    version: "v2",
+  });
+  try {
+    const userInfo = await oauth2.userinfo.get();
+    return userInfo.data;
+  } catch (error) {
+    console.error("Error fetching user info:", error);
+    throw error;
+  }
+}
 
 export async function getUserVideos(
   oauth2Client: OAuth2Client

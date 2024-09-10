@@ -6,15 +6,15 @@ import { z } from "zod";
 import { AxiosError } from "axios";
 import { StatusCodes } from "http-status-codes"; // Import HTTP status codes
 import { googleTokenResponseSchema } from "@/logic/zod-schema";
+import { ApiUrl } from "@/types/enums";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IRefreshTokenOutput | ErrorResponse>
 ) {
   try {
-    console.log('Enter /api/refresh-token');
-    const {refreshToken} = req.body; // --- i do not know why but i get it in the body
-    
+    console.log(`Enter ${ApiUrl.RefreshToken}`);
+    const {refreshToken} = req.body; // --- not able to get it from getIronSessionDefaultMaxAge , i do not know why but i get it in the body
 
     if (!refreshToken) {
       return res
