@@ -15,7 +15,7 @@ I have implementation for accessing from the server youtube api using outh2 - ch
         <li><strong>Framework</strong>: Using Next.js, starting from the client.</li>
         <li><strong>APIs</strong>:
             <ul>
-                <li><code>/api/authlogin</code>: Handles only authentication.</li>
+                <li><code>/api/authlogin</code>: Initate authentication.</li>
                 <li><code>/api/oauth2callback</code>: Handles only authentication.</li>
                 <li><code>/api/refresh-token</code>: Automatically request a new access token when the current one expires </li>
                 <li><code>/api/videos</code>: Standalone API for video-related operations.</li>
@@ -34,3 +34,10 @@ I have implementation for accessing from the server youtube api using outh2 - ch
         <li><code>GOOGLE_CLIENT_SECRET</code></li>
         <li><code>NEXT_PUBLIC_YOUTUBE_REDIRECT_URI</code></li>
     </ul>
+
+
+<h2>Open issues</h2>
+<ul>
+<li>I get profile image in userInfo but some time not shown due to browser error : "A resource is blocked by OpaqueResponseBlocking"</li>
+</ul>
+
