@@ -3,9 +3,8 @@ I have implementation for accessing from the server youtube api using outh2 - ch
 
 <h2>Usage</h2>
     <ol>
-        <li>From the index page, choose "Get videos".</li>
-        <li>If required, log in using <code>nathan@nathankrasney.com</code>.</li>
-        <li>View the number of videos.</li>
+        <li>From the index page, choose "Get videos" and you will see number of videos</li>
+        <li>From the index page, choose "Switch user" and you can login to google as other google account. The one supported are nathan@nathankrasney.com , natankrasney@gmail.com which are defined as test users</li>
     </ol>
 
 
@@ -66,3 +65,4 @@ function logout(session: IronSession<IronSessionData>){
   session.destroy(); // --- this is actually logout , start from scratch
 }
 ```
+This is called on <code>/api/oauth2callback</code>
