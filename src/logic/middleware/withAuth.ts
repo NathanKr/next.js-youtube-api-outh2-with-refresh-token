@@ -9,7 +9,7 @@ import { concatUrls } from "../gen-utils";
 import { getServerUrl } from "../project-utils";
 
 const withAuth = (handler: Function) => {
-  console.log(`enter withAuth`);
+  console.log(`Enter withAuth`);
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
     try {

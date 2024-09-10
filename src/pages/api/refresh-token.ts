@@ -1,6 +1,4 @@
 import axios from "axios";
-import { oauth2Client } from "@/logic/google-utils";
-import { getIronSessionDefaultMaxAge } from "@/logic/iron-session-utils";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ErrorResponse, IRefreshTokenOutput } from "@/types/api";
 import { Credentials } from "google-auth-library";
@@ -14,8 +12,9 @@ export default async function handler(
   res: NextApiResponse<IRefreshTokenOutput | ErrorResponse>
 ) {
   try {
-    const session = await getIronSessionDefaultMaxAge(req, res);
-    const { refreshToken } = session;
+    console.log('Enter /api/refresh-token');
+    const {refreshToken} = req.body; // --- i do not know why but i get it in the body
+    
 
     if (!refreshToken) {
       return res
@@ -34,7 +33,8 @@ export default async function handler(
 
     // Validate the response data using Zod schema
     const parsedData = googleTokenResponseSchema.parse(response.data);
-
+    console.log(`Got fresh and valid accessToken`);
+    
     const { access_token, expires_in, token_type, id_token, scope } =
       parsedData;
 
@@ -46,12 +46,6 @@ export default async function handler(
       scope,
       refresh_token: refreshToken, // Keep the refresh token if it's not provided
     };
-
-    oauth2Client.setCredentials(newTokens);
-
-    // Update the session with the new access token
-    session.accessToken = access_token;
-    await session.save();
 
     const output: IRefreshTokenOutput = {
       tokens: newTokens,

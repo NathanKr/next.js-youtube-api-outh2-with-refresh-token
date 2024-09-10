@@ -47,7 +47,7 @@ export async function isAccessTokenExpired(
   accessToken: string
 ): Promise<boolean | never> {
   try {
-    console.log(`isAccessTokenExpired , accessToken : ${accessToken}`);
+    console.log(`Enter isAccessTokenExpired`);
     const tokenInfo: TokenInfo = (await oauth2Client.getTokenInfo(
       accessToken
     )) as TokenInfo;

@@ -17,13 +17,13 @@ I have implementation for accessing from the server youtube api using outh2 - ch
             <ul>
                 <li><code>/api/authlogin</code>: Handles only authentication.</li>
                 <li><code>/api/oauth2callback</code>: Handles only authentication.</li>
-                <li><code>/api/refresh-token</code>: Automatically request a new access token when the current one expires (not working yet)</li>
+                <li><code>/api/refresh-token</code>: Automatically request a new access token when the current one expires </li>
                 <li><code>/api/videos</code>: Standalone API for video-related operations.</li>
             </ul>
         </li>
         <li><strong>Session Management</strong>: Using <code>iron-session</code> to store <code>accessToken</code> and <code>refreshToken</code> (valid for one week, configurable). The <code>accessToken</code> is valid for one hour, allowing usage without re-login.</li>
         <li><strong>Middleware</strong>: Using <code>withAuth</code> middleware to handle authentication, so APIs like <code>videos</code> handle only video-related operations.</li>
-        <li><strong>Token Refresh</strong>: Added a <code>refresh-token</code> endpoint to automatically request a new access token when the current one expires (not working yet).</li>
+        <li><strong>Token Refresh</strong>: Added a <code>refresh-token</code> endpoint to automatically request a new access token when the current one expires .</li>
         <li><strong>Video Count</strong>: Passes video count back to the page, different from <code>youtube-api-server-private</code>.</li>
     </ul>
 
