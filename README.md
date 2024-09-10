@@ -9,26 +9,19 @@ from the index page choose "Get videos" than login using nathan@nathankrasney.co
 
 <h2>Design</h2>
 <ul>
-<li>similar to <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a> but betetr : here we use next.js , start from the client , videos has stand alone api and oauth2callback api does not handle videos only auth stuff
+<li>similar to <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a> but betetr
+<ul>
+<li>here we use next.js and we start from the client</li>
+<li>videos has stand alone api</li>
+<li>oauth2callback api does not handle videos only auth stuff</li>
+<li>i use iron-session and i store there accessToken and refreshToken (valid for one week - configureable). aceesToken is valid for one hour so i can use it without need to login</li>
+<li>i use withAuth middleware to handle authentication so api using it like videos handle only videos not auth</li>
+<li>i added refresh-token end point so the app can ask again via api for access token when the 1 hour has expired automatically - this is not working yet</li>
+</ul>
 </li>
 <li>here we pass video count back to page : videos which is different from youtube-api-server-private </li>
 </ul>
 
 <h2>Credentials</h2>
-Same as in <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a> (check there credentials.json locally)
-
-<h2>Persist token limitation</h2>
-<ul>
-<li>To use the youtube api one must authenticate using /api/authlogin which pass code that /api/oauth2callback can use to retrive tokens and access the youtube api via OAuth2Client object. one can store this e.g. in a session so user will not have to login each time.</li>
-<li>possible solutions may be next-auth/react and iron-session</li>
-</ul>
-
-<h2>Persist token partial solution</h2>
-<ul>
-<li>i have added iron-ssesion so after /api/loginauth i am able to save the code in a cookie in /api/oauth2callback and use it in /api/videos but only once. Next time i need to re-login</li>
-<li>Altough i need to login each time the api structure now is better because videos is stand alone api and /api/loginauth \ /api/oauth2callback are generic</li>
-<li>add withAuth to handle authentication</li>
-<li>save access token instead of code seems better because the token is valid for about 1 hour</li>
-<li>add refresh token for complete solution - need to check</li>
-</ul>
+Same as in <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a> but i am not using credentials.json i prefer to use .env.local where i put : GOOGLE_CLIENT_ID , GOOGLE_CLIENT_SECRET , NEXT_PUBLIC_YOUTUBE_REDIRECT_URI
 
