@@ -1,27 +1,34 @@
 <h2>Motivation</h2>
 I have implementation for accessing from the server youtube api using outh2 - check <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a>. Now i want to add also the client and use next.js
 
-<h2>AI prompt</h2>
-i have next.js with youtube api and Oauth2. how to implemnent using page router. i do not want to access youtube api from the client i want the server api to do it
-
 <h2>Usage</h2>
-from the index page choose "Get videos" than login using nathan@nathankrasney.com and see num videos
+    <ol>
+        <li>From the index page, choose "Get videos".</li>
+        <li>If required, log in using <code>nathan@nathankrasney.com</code>.</li>
+        <li>View the number of videos.</li>
+    </ol>
+
 
 <h2>Design</h2>
-<ul>
-<li>similar to <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a> but betetr
-<ul>
-<li>here we use next.js and we start from the client</li>
-<li>videos has stand alone api</li>
-<li>oauth2callback api does not handle videos only auth stuff</li>
-<li>i use iron-session and i store there accessToken and refreshToken (valid for one week - configureable). aceesToken is valid for one hour so i can use it without need to login</li>
-<li>i use withAuth middleware to handle authentication so api using it like videos handle only videos not auth</li>
-<li>i added refresh-token end point so the app can ask again via api for access token when the 1 hour has expired automatically - this is not working yet</li>
-</ul>
-</li>
-<li>here we pass video count back to page : videos which is different from youtube-api-server-private </li>
-</ul>
+    <ul>
+        <li><strong>Architecture</strong>: Similar to <code>youtube-api-server-private</code> but improved.</li>
+        <li><strong>Framework</strong>: Using Next.js, starting from the client.</li>
+        <li><strong>APIs</strong>:
+            <ul>
+                <li><code>videos</code>: Standalone API for video-related operations.</li>
+                <li><code>oauth2callback</code>: Handles only authentication.</li>
+            </ul>
+        </li>
+        <li><strong>Session Management</strong>: Using <code>iron-session</code> to store <code>accessToken</code> and <code>refreshToken</code> (valid for one week, configurable). The <code>accessToken</code> is valid for one hour, allowing usage without re-login.</li>
+        <li><strong>Middleware</strong>: Using <code>withAuth</code> middleware to handle authentication, so APIs like <code>videos</code> handle only video-related operations.</li>
+        <li><strong>Token Refresh</strong>: Added a <code>refresh-token</code> endpoint to automatically request a new access token when the current one expires (not working yet).</li>
+        <li><strong>Video Count</strong>: Passes video count back to the page, different from <code>youtube-api-server-private</code>.</li>
+    </ul>
 
 <h2>Credentials</h2>
-Same as in <a href='https://github.com/NathanKr/youtube-api-server-private'>youtube-api-server-private</a> but i am not using credentials.json i prefer to use .env.local where i put : GOOGLE_CLIENT_ID , GOOGLE_CLIENT_SECRET , NEXT_PUBLIC_YOUTUBE_REDIRECT_URI
-
+    <p>Same as in <code>youtube-api-server-private</code>, but using <code>.env.local</code> for:</p>
+    <ul>
+        <li><code>GOOGLE_CLIENT_ID</code></li>
+        <li><code>GOOGLE_CLIENT_SECRET</code></li>
+        <li><code>NEXT_PUBLIC_YOUTUBE_REDIRECT_URI</code></li>
+    </ul>
