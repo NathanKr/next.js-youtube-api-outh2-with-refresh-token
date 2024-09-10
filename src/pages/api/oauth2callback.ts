@@ -1,7 +1,7 @@
 // --- api/oauth2callback
 
 import { getAuthenticatedUserInfo, oauth2Client } from "@/logic/google-utils";
-import { getIronSessionDefaultMaxAge } from "@/logic/iron-session-utils";
+import { getIronSessionDefaultMaxAge, logout } from "@/logic/iron-session-utils";
 import { LoginStatus, Pages } from "@/types/enums";
 import { StatusCodes } from "http-status-codes";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -31,7 +31,7 @@ export default async function handler(
     const userInfo = await getAuthenticatedUserInfo(oauth2Client);// --- i do not want to check validation here i will do it when access the info
     
     let session = await getIronSessionDefaultMaxAge(req, res);
-    session.destroy(); // --- start from scratch
+    logout(session); 
     session = await getIronSessionDefaultMaxAge(req, res);
 
     session.accessToken = access_token;

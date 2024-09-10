@@ -14,3 +14,11 @@ export function getIronSessionDefaultMaxAge(
   };
   return getIronSession<IronSessionData>(req, res, sessionOptions);
 }
+
+/**
+ * destroy the cookie
+ * @param session 
+ */
+export function logout(session: IronSession<IronSessionData>){
+  session.destroy(); // --- this is actually logout , start from scratch
+}
