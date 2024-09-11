@@ -10,7 +10,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // --- got the code from /api/authlogin
+  // --- got the code from /api/auth/authlogin
   const { code } = req.query as { code?: string }; // Type the query parameters
   console.log(`code : ${code}`);
 

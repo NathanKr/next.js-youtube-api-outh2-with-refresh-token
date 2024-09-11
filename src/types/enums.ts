@@ -5,15 +5,15 @@ export enum LoginStatus {
 }
 
 export enum Pages {
-  Login = "/login",
+  Login = "/auth/login",
   Home = "/",
   Videos = "/videos",
 }
 
 export enum ApiUrl {
-  Login = "/api/authlogin",
-  AuthCallback = "/api/oauth2callback", // not used by this enum, call from auth
+  Login = "/api/auth/authlogin",
+  AuthCallback = "/api/auth/oauth2callback", // not used by this enum, call from auth
   Videos = "/api/videos",
-  RefreshToken = "/api/refresh-token",
+  RefreshToken = "/api/auth/refresh-token",
   UserInfo = "/api/user-info",
 }

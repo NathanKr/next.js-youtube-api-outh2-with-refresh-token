@@ -14,9 +14,9 @@ I have implementation for accessing from the server youtube api using outh2 - ch
         <li><strong>Framework</strong>: Using Next.js, starting from the client.</li>
         <li><strong>APIs</strong>:
             <ul>
-                <li><code>/api/authlogin</code>: Initate authentication process - login to google</li>
-                <li><code>/api/oauth2callback</code>: Called by /api/authlogin with code </li>
-                <li><code>/api/refresh-token</code>: Automatically request a new access token when the access token one hour is expired </li>
+                <li><code>/api/auth/authlogin</code>: Initate authentication process - login to google</li>
+                <li><code>/api/auth/oauth2callback</code>: Called by /api/auth/authlogin with code </li>
+                <li><code>/api/auth/refresh-token</code>: Automatically request a new access token when the access token one hour is expired </li>
                 <li><code>/api/videos</code>: Standalone API for video-related operations.</li>
             </ul>
         </li>
@@ -48,7 +48,7 @@ const SCOPES = [
 ```
 
 <h2>Logout</h2>
-To login a user to google you do in /api/authlogin
+To login a user to google you do in /api/auth/authlogin
 
 ```ts
 const authUrl = oauth2Client.generateAuthUrl({
@@ -65,4 +65,4 @@ function logout(session: IronSession<IronSessionData>){
   session.destroy(); // --- this is actually logout , start from scratch
 }
 ```
-This is called on <code>/api/oauth2callback</code>
+This is called on <code>/api/auth/oauth2callback</code>
