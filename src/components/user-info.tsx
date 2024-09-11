@@ -3,6 +3,7 @@ import axios from "axios";
 import { ApiUrl } from "@/types/enums";
 import { ErrorResponse } from "@/types/api";
 import { TUserInfo } from "@/types/types";
+import Image from "next/image";
 
 const UserInfo: FC = () => {
   const [userInfo, setUserInfo] = useState<TUserInfo | null>(null);
@@ -39,7 +40,7 @@ const UserInfo: FC = () => {
           <p>Given Name: {userInfo.given_name}</p>
           <p>Family Name: {userInfo.family_name}</p>
           <p>
-            Picture: <img src={userInfo.picture ?? ""} alt="User profile" />
+            Picture: <Image width="96" height="96" src={userInfo.picture ?? ""} alt="User profile" />
           </p>
           <p>Locale: {userInfo.locale}</p>
           <p>HD: {userInfo.hd}</p>
