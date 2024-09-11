@@ -1,6 +1,5 @@
 
 import { oauth2Client } from "@/logic/google-utils";
-import withAuth from "@/logic/middleware/withAuth";
 import { NextApiRequest, NextApiResponse } from "next";
 
 function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -17,4 +16,4 @@ function handler(req: NextApiRequest, res: NextApiResponse) {
   res.redirect(authUrl);
 }
 
-export default withAuth(handler);
+export default handler;
