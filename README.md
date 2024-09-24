@@ -66,3 +66,10 @@ function logout(session: IronSession<IronSessionData>){
 }
 ```
 This is called on <code>/api/auth/oauth2callback</code>
+
+
+<h2>References</h2>
+<ul>
+<li><a href = 'https://youtu.be/FeWPqNC18ho?si=uKvrel6E0dYXoeAq'>  Unlocking Cookies: The Secret Behind Web Sessions  </a></li>
+<li><a href = 'https://www.youtube.com/watch?v=xuQJMZBb4AM'>  Secure Session Management with Iron-Session!  </a></li>
+</ul>
