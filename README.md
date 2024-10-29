@@ -1,71 +1,68 @@
 <h2>Description</h2>
-This project extends the capabilities of accessing and managing YouTube API operations using Next.js pages router. By leveraging 
-
-<ul>
-<li>OAuth2 for secure authentication</li>
-<li>iron-session for robust session management</li>
-<li>refresh token generation to maintain continuous access</li>
-</ul>
- 
- you won't have to re-login each time you need to be authenticated by the Google authentication server.
+  <p>
+    This project extends the capabilities of accessing and managing YouTube API operations using Next.js Pages Router. By leveraging:
+    <ul>
+      <li>OAuth2 for secure authentication</li>
+      <li>iron-session for robust session management</li>
+      <li>refresh token generation to maintain continuous access</li>
+    </ul>
+    you won't have to re-login each time you need to be authenticated by the Google authentication server.
+  </p>
 
 <h2>Motivation</h2>
-<p>I have implementation for accessing youtube api from the server using outh2 - check the third item in <a href='#references'>Refernces</a>. Now i want to add also the client by using next.js</p>
+  <p>
+    I have implemented access to the YouTube API from the server using OAuth2 - check the third item in <a href='#references'>References</a>. Now, I want to add the client side using Next.js.
+  </p>
 
 <h2>Demo</h2>
-The following are pages UI
+  <h3>Home Page</h3>
+  <p>
+    In this figure, you can see the buttons for 'Switch user' - used to log in the user to Google using OAuth2, and 'Get number of videos' - used to retrieve the number of videos on the YouTube channel compatible with the logged-in Google account.
+  </p>
+  <img src="./figs/main-page.png" alt="Home Page">
 
-<h3>Home page</h3>
-<p>In this figure you can see the button for 'Switch user" - used to login user to google using oauth2 and 'Get number of videos' used to retrive the number of videos in the youtube channel compatiable with the logged in google account</p>
-
-<img src='./figs/main-page.png'/>
-
-<h3>Videos page</h3>
-<p>In this figure you can see the number of videos that the logged in user - nathan@nathankrasney.com has on its youtube channel</p>
-
-<img src='./figs/videos-page.png'/>
+  <h3>Videos Page</h3>
+  <p>
+    In this figure, you can see the number of videos that the logged-in user (nathan@nathankrasney.com) has on their YouTube channel.
+  </p>
+  <img src="./figs/videos-page.png" alt="Videos Page">
 
 <h2>Installation</h2>
-Invoke the folowing to install all packages
+Invoke the following to install all packages:
 
 ```bash
 pnpm i 
 ```
 You can also use npm
 
-
 <h2>Usage</h2>
-
-run the development server using
-
-```bash
-npm run dev
-```
-
-Follow these instructions
-<ol>
-    <li>From the index page, choose "Get videos" and you will see number of videos</li>
-    <li>From the index page, choose "Switch user" and you can login to google as other google account. The one supported are nathan@nathankrasney.com , natankrasney@gmail.com which are defined as test users defined on my google cloude project. You need to create your own to make this code work</li>
-</ol>
-
+  <p>
+    Run the development server using:
+    <pre><code>npm run dev</code></pre>
+    Follow these instructions:
+    <ol>
+      <li>From the index page, choose "Get videos" to see the number of videos.</li>
+      <li>From the index page, choose "Switch user" to log in to Google as another Google account. The supported accounts are nathan@nathankrasney.com and natankrasney@gmail.com, which are defined as test users in my Google Cloud project. You need to create your own to make this code work.</li>
+    </ol>
+  </p>
 
 <h2>Design</h2>
-<ul>
-    <li><strong>Architecture</strong>: Similar to the third item in <a href='#references'>Refernces</a> but improved.</li>
+  <ul>
+    <li><strong>Architecture</strong>: Similar to the third item in <a href='#references'>References</a> but improved.</li>
     <li><strong>Framework</strong>: Using Next.js, starting from the client.</li>
     <li><strong>APIs</strong>:
-        <ul>
-            <li><code>/api/auth/authlogin</code>: Initate authentication process - login to google</li>
-            <li><code>/api/auth/oauth2callback</code>: Called by /api/auth/authlogin with code </li>
-            <li><code>/api/auth/refresh-token</code>: Automatically request a new access token when the access token one hour is expired </li>
-            <li><code>/api/videos</code>: Standalone API for video-related operations.</li>
-        </ul>
+      <ul>
+        <li><code>/api/auth/authlogin</code>: Initiates the authentication process - login to Google</li>
+        <li><code>/api/auth/oauth2callback</code>: Called by /api/auth/authlogin with code </li>
+        <li><code>/api/auth/refresh-token</code>: Automatically requests a new access token when the access token one hour is expired </li>
+        <li><code>/api/videos</code>: Standalone API for video-related operations</li>
+      </ul>
     </li>
-    <li><strong>Session Management</strong>: Using <code>iron-session</code> to store in encrypted cookie <code>accessToken</code> and <code>refreshToken</code> (valid for one week, configurable). The <code>accessToken</code> is valid for one hour, allowing usage without re-login.</li>
+    <li><strong>Session Management</strong>: Using <code>iron-session</code> to store encrypted cookies <code>accessToken</code> and <code>refreshToken</code> (valid for one week, configurable). The <code>accessToken</code> is valid for one hour, allowing usage without re-login.</li>
     <li><strong>Middleware</strong>: Using <code>withAuth</code> middleware to handle authentication, so APIs like <code>videos</code> handle only video-related operations.</li>
-    <li><strong>Token Refresh</strong>: Added a <code>refresh-token</code> endpoint to automatically request a new access token when the current one expires .</li>
-    <li><strong>Video Count</strong>: Passes video count back to the page, different from the third item in <a href='#references'>Refernces</a>.</li>
-</ul>
+    <li><strong>Token Refresh</strong>: Added a <code>refresh-token</code> endpoint to automatically request a new access token when the current one expires.</li>
+    <li><strong>Video Count</strong>: Passes video count back to the page, different from the third item in <a href='#references'>References</a>.</li>
+  </ul>
 
 <h2>Code</h2>
 The following are selected code snippets
@@ -82,8 +79,8 @@ const authUrl = oauth2Client.generateAuthUrl({
 ```
 
 <h3>Logout</h3>
+  <p>The user info (<code>accessToken</code>, <code>refreshToken</code>, and <code>userInfo</code>) is stored in an iron-session session, which is essentially a cookie. So, if you don't want the current user to keep making Google API operations, you simply destroy the cookie:</p>
 
-The user info : accessToken , refreshToken and userInfo are stored in iron-session session which is actially a cookie. so if you dont want the current user to keep making google API operations you simple destroy the cookie 
 
 ```ts
 function logout(session: IronSession<IronSessionData>){
