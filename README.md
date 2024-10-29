@@ -15,6 +15,8 @@
   </p>
 
 <h2>Demo</h2>
+  The following represent the pages UI
+
   <h3>Home Page</h3>
   <p>
     In this figure, you can see the buttons for 'Switch user' - used to log in the user to Google using OAuth2, and 'Get number of videos' - used to retrieve the number of videos on the YouTube channel compatible with the logged-in Google account.
