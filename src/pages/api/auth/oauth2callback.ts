@@ -23,8 +23,11 @@ export default async function handler(
     const { tokens } = await oauth2Client.getToken(code);
     const {access_token , refresh_token} = tokens;
     if(!access_token || !refresh_token){
+     
       console.error('tokens info is not complete');
-      res.redirect(`${Pages.Login}?status=${LoginStatus.LoginFailure}`);
+      console.log(`${access_token ? 'access_token truty' : 'access_token falsy' }`);
+      console.log(`${refresh_token ? 'refresh_token truty' : 'refresh_token falsy' }`);
+            res.redirect(`${Pages.Login}?status=${LoginStatus.LoginFailure}`);
       return;
     }
     oauth2Client.setCredentials(tokens);
