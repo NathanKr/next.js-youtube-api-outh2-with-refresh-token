@@ -69,6 +69,15 @@ export async function isAccessTokenExpired(
     )) as TokenInfo;
 
     console.log(tokenInfo);
+
+    // Convert `expiry_date` to a local date and time
+    const localExpiryDate = new Date(tokenInfo.expiry_date);
+    console.log(
+      "Local Expiry Date (milliseconds):",
+      localExpiryDate.toString()
+    ); 
+    
+
     const currentTime = Date.now(); // Current time in milliseconds
     return tokenInfo.expiry_date <= currentTime; // Check if the token has expired
   } catch (error) {
